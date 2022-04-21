@@ -22,8 +22,10 @@ public class Cliente {
     private int num_telemovel;
     @Column(name = "email")
     private String email;
+    @JsonIgnore
     @Column(name = "filtro_distancia")
     private int filtro_distancia;
+    @JsonIgnore
     @Column(name = "filtro_estrelas")
     private int filtro_estrelas;
 
@@ -114,4 +116,17 @@ public class Cliente {
         this.reservas.add(r);
     }
 
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "nif=" + nif +
+                ", nome='" + nome + '\'' +
+                ", nome_utilizador='" + nome_utilizador + '\'' +
+                ", palavra_passe='" + palavra_passe + '\'' +
+                ", num_telemovel=" + num_telemovel +
+                ", email='" + email + '\'' +
+                ", filtro_distancia=" + filtro_distancia +
+                ", filtro_estrelas=" + filtro_estrelas +
+                '}';
+    }
 }

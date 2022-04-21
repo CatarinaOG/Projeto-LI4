@@ -78,6 +78,7 @@ public class AppService {
     }
 
     public void atualizarDados(AtualizarDadosForm form) {
+        System.out.println("atualizar dados");
         String nome = form.getNome();
         String nome_utilizador = form.getNome_utilizador();
         String palavra_passe = form.getPalavra_passe();
@@ -88,7 +89,10 @@ public class AppService {
         Cliente c = clienteRepo.encontraPorNomeUtilizador(this.nome_utilizador);
         if (palavra_passe_antiga.equals(c.getPalavra_passe())) {
             if (!nome.equals("")) c.setNome(nome);
-            if (!nome_utilizador.equals("")) c.setNome_utilizador(nome_utilizador);
+            if (!nome_utilizador.equals("")) {
+                this.nome_utilizador = nome_utilizador;
+                c.setNome_utilizador(nome_utilizador);
+            }
             if (!palavra_passe.equals("")) c.setPalavra_passe(palavra_passe);
             if (!num_telemovel.equals("")) c.setNum_telemovel(Integer.parseInt(num_telemovel));
             clienteRepo.save(c);
@@ -98,6 +102,8 @@ public class AppService {
     public void alterarFiltro(Map<String, Object> input) {
         Cliente c = this.clienteRepo.encontraPorNomeUtilizador(this.nome_utilizador);
         c.setFiltro_distancia(Integer.parseInt((String) input.get("filtro")));
+        System.out.println("Filtro:"+c.getFiltro_distancia());
+        System.out.println("Input:"+input.get("filtro"));
         this.clienteRepo.save(c);
     }
 
@@ -140,6 +146,7 @@ public class AppService {
     }
 
     public Cliente obtemInfoCliente() {
+        System.out.println("info:"+this.clienteRepo.encontraPorNomeUtilizador(this.nome_utilizador));
         return this.clienteRepo.encontraPorNomeUtilizador(this.nome_utilizador);
     }
 
@@ -330,13 +337,16 @@ public class AppService {
     }
 
     public void setRestauranteAtualCoord(double lat, double lng) {
+
         List<Restaurante> rests = this.restauranteRepo.findAll();
         for (Restaurante r : rests) {
             if (r.getLatitude() == lat && r.getLongitude() == lng) {
                 this.restaurante_atual = r.getNome();
                 break;
             }
+
         }
+
     }
 
     public void alterarFiltroEstrelas(String filtro) {
@@ -441,7 +451,6 @@ public class AppService {
         res.put("value", "codigo promocional 10%");
         res.put("label", "codigo promocional 10%");
         resultado.add(res);
-        System.out.println("get all codigos");
         return resultado;
     }
 
